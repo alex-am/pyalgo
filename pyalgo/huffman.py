@@ -63,6 +63,7 @@ class HuffmanEncoder:
 
     def encode(self, alpha_freq):
         # sorting step could be improved
+        # idee c est de depiler q1 tant qu on est pas dans un bon cas !!
         q = queue.Queue()
         aq = queue.Queue()
         for e in sorted(alpha_freq.items(), key=itemgetter(1)):
