@@ -16,30 +16,31 @@ at 15
 
 import numpy as np
 
+def single_trade(prices):
+    # outputs best single trade from index n of price array
+    # brute force for now but could do better
+    # O(n**2)
+    l = len(prices)
+    s = prices[:]
+    s[-1] = 0
+    for i in range(l-1):
+        m = max((prices[j] for j in range(i+1, l)))
+        s[i] = m - s[i]
+    return s
 
-def dyn_trader(prices, k):
-    n = len(prices)
-    m = np.zeros((n, n))
-    states = {}
-    for k in range(n-1, 0, -1):
-        for i in range(0, k):
-            j = k - 1 - i
-            m[i, j] = k
-            # i+1, j
-            n, first_buy, last_sell = states[(i+1, j)]
-            if n < k:
-
-            else:
-                if p[i] < p[first_buy]:
-                    m[i, j] = m[i+1, j] + p[first_buy] - p[i]
-                    first_buy = i
-                    
-            # i, j+1
-            print(i, j)
+def dyn_trader(prices, K):
+    N = len(prices)
+    m = np.zeros((K, N))
+    s = single_trade(prices)
+    m[0,] = first_line(prices)
+    for k in range(2, K+1):
+        for n in range(1, N-2):
+            m[k, n] = m[k-1, n] + s[n+1]
     print(m)
 
 
 if __name__ == '__main__':
     prices = [7, 9, 10, 3]
+
     k = 4
     dyn_trader(prices, k)

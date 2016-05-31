@@ -6,28 +6,43 @@ import numpy as np
 def is_sum(t, S):
     # is it np hard ?
     # O(n**2 t)
+    # brute force 2**n
     S = list(filter(lambda x:x>0, S))
     n = len(S)
-    m = np.zeros((n, t))
+    m = np.zeros((n, t), dtype=np.int)
     # first line
-    for j, s in enumerate(range(1, t+1)):
-        m[0, j] = s in S
+    for s in range(0, t):
+        m[0, s] = s + 1
+    #we can be lucky
+
     for j in range(1, n):
-        # for i in range(2, t+1):
         for i in range(1, t):
-            lv = 0
             for s in S:
                 if i < s:
                     continue
                 if m[j-1, i-s]:
-                    lv = 1
+                    m[j, i] = s
+                    if i == (t-1):
+                        #reached the target we are done
+                        return (j, m)
                     break
-            m[j, i] = lv
-    print(m)
-    print(m[n-1, t-1])
+    return (j, m)
 
+def get_shortest(i, m):
+    _, t = m.shape
+    res = []
+    while i >= 0:
+        e = m[i, t-1]
+        res.append(e)
+        t = t - e
+        if t <= 0:
+            break
+        i -= 1
+    return res
 
 if __name__ == "__main__":
-    t = 1024
-    S = [3 ,4, 4, 4, 3, 12, 45, 12, 11, 145, 102, 102, 102, 147, 589]
-    is_sum(t, S)
+    t = 12
+    S = [3 ,4, 4, 4, 3, 12, 45]
+    i, m = is_sum(t, S)
+    print(i, m)
+    print(get_shortest(i, m))
