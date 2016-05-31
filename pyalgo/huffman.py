@@ -63,34 +63,22 @@ class HuffmanEncoder:
 
     def encode(self, alpha_freq):
         # sorting step could be improved
-        # idee c est de depiler q1 tant qu on est pas dans un bon cas !!
-        q = queue.Queue()
-        aq = queue.Queue()
+        # two queues the ordered queue and the 2 min queue
+
+        oq = queue.Queue()
+        mq = queue.Queue()
         for e in sorted(alpha_freq.items(), key=itemgetter(1)):
-            q.put(e)
-        # init
-        t1 = q.get()
-        t2 = q.get()
-        name = "(%s_%s)" % (t1.name, t2.name)
-        freq = t1.freq + t2.freq
-        aq.put(Tree(name, freq, t1, t2))
-        t1 = q.get()
-        while not q.empty():
-            aux = aq.get() 
-            if aux.freq <= t1.freq:
-                aux.put(merge(aux, t1))
-                continue
-            t2 = q.get()
-            if aux.freq > t2.freq:
-                merged = merge(t1, t2)
-                rem = aux
-                import pdb
-                pdb.set_trace()
-                # cas complique
-                # a > q2 > q1
-                # on ne connait pas q3 
-                # on peut classer m = merge(q1, q2) et a
-                # et les empiler dans aux => aux a 2 elements
+            oq.put(e)
+        #±init
+        t1 = oq.get()
+        t2 = oq.get()
+        mq.put(t1)
+        mq.put(t2)
+        curs = None
+        while True:
+            m1 = mq.get()
+            m2 = mq.get()
+
 
             else:
                 merged = merge(aux, t1)
