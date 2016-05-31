@@ -28,11 +28,19 @@ def single_trade(prices):
         s[i] = m - s[i]
     return s
 
+def bf_max(prices):
+    l = len(prices)
+    for i in range():
+        m = max((prices[j] for j in range(i+1, l)))
+        s[i] = m - s[i]
+
 def dyn_trader(prices, K):
     N = len(prices)
     m = np.zeros((K, N))
     s = single_trade(prices)
-    m[0,] = first_line(prices)
+    # init
+    for i in range(2, N+1):
+        m[0, i] = bf_max(prices[:i])
     for k in range(2, K+1):
         for n in range(1, N-2):
             m[k, n] = m[k-1, n] + s[n+1]
